@@ -40,7 +40,7 @@ public class Population {
         // Loop through individuals to find fittest
         for (int i = 1; i < populationSize(); i++) {
             // System.out.print("compare "+fittest.getFitness()+"<="+getTour(i).getFitness());
-            if (fittest.getFitness() >= getTour(i).getFitness()) {
+            if (fittest.getFitness() <= getTour(i).getFitness()) {
                 // System.out.print(":yes");
                 fittest = getTour(i);
             }else{

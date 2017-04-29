@@ -31,8 +31,11 @@ public class GA {
         // System.out.println("=========================================================");
         for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
             // Select parents
-            Tour parent1 = tournamentSelection(pop);
-            Tour parent2 = tournamentSelection(pop);
+            // Tour parent1 = tournamentSelection(pop);
+            // Tour parent2 = tournamentSelection(pop);
+            Tour parent1 = rouletteWheelSelection(pop);
+            Tour parent2 = rouletteWheelSelection(pop);
+            
             // System.out.println("=========================================================");
             // System.out.print("Cross Over parent: \nRute "+parent1+" \ndengan\n Rute"+parent2+"\n");
             // System.out.println("=========================================================");
@@ -131,4 +134,47 @@ public class GA {
         Tour fittest = tournament.getFittest();
         return fittest;
     }
+
+    private static Tour rouletteWheelSelection(Population pop) {
+        // Create a tournament population
+        double random = Math.random();
+        Tour selected=pop.getTour(0);
+        // System.out.println("random : ");
+        // System.out.print(random);
+        double[] fkum=new double[pop.populationSize()];
+        double kumulatif=0;
+        // get sigma fitness
+        double sigmaFitness=0;
+        for(int j=0;j<pop.populationSize();j++){
+            sigmaFitness+=pop.getTour(j).getFitness();
+        }
+        // System.out.println("sigmaFitness : "+sigmaFitness);
+        //get kumulatif
+        for(int i=0;i<pop.populationSize();i++){
+            kumulatif+=(pop.getTour(i).getFitness()/sigmaFitness);
+            fkum[i]=kumulatif;
+        }
+        // System.out.println("kumulatif : "+fkum.toString());
+        // for(int x=0;x<fkum.length;x++){System.out.print(fkum[x]);System.out.println(" ");}
+        
+        // get minimal kumulatif-random
+            int indeksTerpilih=0;
+        for(int k=0;k<pop.populationSize();k++){
+            
+            if(k>0){
+                double cek=fkum[k]-random;
+                // double cekSebelumnya=fkum[k-1]-random;
+                if(cek>0){
+                    selected=pop.getTour(k);
+                    indeksTerpilih=k;
+                    break;
+                }
+            }
+
+        }
+         // System.out.println("indeks terpilih : "+indeksTerpilih);
+        
+        return selected;
+    }
+
 }

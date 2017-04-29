@@ -86,6 +86,7 @@ public class TSP_GA {
             System.out.print(i);
             System.out.print("\n");
             System.out.println("Jarak Fitness terbaik yang dihasilkan : " + pop.getFittest().getFitness());
+            System.out.println("dengan Jarak : " + pop.getFittest().getDistance());
             pop.printPopulation();
 
             pop = GA.evolvePopulation(pop,0.015);

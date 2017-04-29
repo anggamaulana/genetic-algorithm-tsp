@@ -52,10 +52,10 @@ public class Tour{
     
     // Gets the tours fitness
     public double getFitness() {
-        // if (fitness == 0) {
-        //     fitness = 1/(double)getDistance();
-        // }
-        return (double)getDistance();
+        if (fitness == 0) {
+            fitness = 1/(double)getDistance();
+        }
+        return (double)fitness;
     }
     
     // Gets the total distance of the tour
