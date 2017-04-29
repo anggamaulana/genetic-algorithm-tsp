@@ -7,3 +7,4 @@ modifikasi penambahan roulette wheel selection,penambahan label kota, pengubahan
 
 
 this code has been modified from original source for demo and debugging purpose.
+adding roulette wheel selection,dynamically setting hyperparameter and print all process for demo purpose
