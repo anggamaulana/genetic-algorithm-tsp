@@ -26,8 +26,8 @@ public class TSP_GA {
      
        System.out.println("Nilai Mutation Rate : ");  
        mutationRate=sc.nextDouble();  
-       System.out.println("Nilai crossOver Rate : ");  
-       crossOverRate=sc.nextDouble(); 
+       // System.out.println("Nilai crossOver Rate : ");  
+       // crossOverRate=sc.nextDouble(); 
         System.out.println("Jumlah Generasi : ");  
        generationCount=sc.nextInt(); 
        System.out.println("Ukuran Populasi : ");  
@@ -80,7 +80,7 @@ public class TSP_GA {
         System.out.println("Initial distance: " + pop.getFittest().getDistance());
 
         // Evolve population for 100 generations
-        pop = GA.evolvePopulation(pop,0.015);
+        pop = GA.evolvePopulation(pop,mutationRate);
         for (int i = 0; i < generationCount; i++) {
             System.out.print("Generasi Ke :");
             System.out.print(i);
@@ -89,7 +89,7 @@ public class TSP_GA {
             System.out.println("dengan Jarak : " + pop.getFittest().getDistance());
             pop.printPopulation();
 
-            pop = GA.evolvePopulation(pop,0.015);
+            pop = GA.evolvePopulation(pop,mutationRate);
             Thread.sleep(1000);
         }
 

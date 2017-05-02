@@ -22,14 +22,19 @@ public class GA {
             newPopulation.saveTour(0, pop.getFittest());
             elitismOffset = 1;
         }
-
+        
+        int maxCouple = newPopulation.populationSize()/2;
+        if(newPopulation.populationSize()%2==1){
+            maxCouple++;
+        }
         // Crossover population
         // Loop over the new population's size and create individuals from
         // Current population
         // System.out.println("=========================================================");
         //     System.out.print("PEMBENTUKAN POPULASI BARU MULAI");
         // System.out.println("=========================================================");
-        for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
+        int j=0;
+        for (int i = elitismOffset; i < maxCouple; i++) {
             // Select parents
             // Tour parent1 = tournamentSelection(pop);
             // Tour parent2 = tournamentSelection(pop);
@@ -40,10 +45,21 @@ public class GA {
             // System.out.print("Cross Over parent: \nRute "+parent1+" \ndengan\n Rute"+parent2+"\n");
             // System.out.println("=========================================================");
             // Crossover parents
-            Tour child = crossover(parent1, parent2);
+            Tour[] child = crossover2(parent1, parent2);
             // Add child to new population
-            newPopulation.saveTour(i, child);
+            if(j<newPopulation.populationSize()){
+                newPopulation.saveTour(j, child[0]);
+                j++;
+                
+                if(j<newPopulation.populationSize()){
+                    newPopulation.saveTour(j, child[1]);
+                    j++;
+                }
+                  
+            }
         }
+
+        
 
         // Mutate the new population a bit to add some new genetic material
         for (int i = elitismOffset; i < newPopulation.populationSize(); i++) {
@@ -99,6 +115,74 @@ public class GA {
         }
         return child;
     }
+
+    // Applies crossover to a set of parents and creates offspring
+    public static Tour[] crossover2(Tour parent1, Tour parent2) {
+        // Create new child tour
+        Tour[] child = new Tour[2];
+        child[0] = new Tour();
+        child[1] = new Tour();
+
+        // Get start and end sub tour positions for parent1's tour
+        int startPos = (int) (Math.random() * parent1.tourSize());
+        int endPos = (int) (Math.random() * parent1.tourSize());
+
+        // Loop and add the sub tour from parent1 to our child
+        for (int i = 0; i < child[0].tourSize(); i++) {
+            // If our start position is less than the end position
+            if (startPos < endPos && i > startPos && i < endPos) {
+                child[0].setCity(i, parent1.getCity(i));
+            } // If our start position is larger
+            else if (startPos > endPos) {
+                if (!(i < startPos && i > endPos)) {
+                    child[0].setCity(i, parent1.getCity(i));
+                }
+            }
+        }
+
+        for (int i = 0; i < child[1].tourSize(); i++) {
+            // If our start position is less than the end position
+            if (startPos < endPos && i > startPos && i < endPos) {
+                child[1].setCity(i, parent2.getCity(i));
+            } // If our start position is larger
+            else if (startPos > endPos) {
+                if (!(i < startPos && i > endPos)) {
+                    child[1].setCity(i, parent2.getCity(i));
+                }
+            }
+        }
+
+        // Loop through parent2's city tour
+        for (int i = 0; i < parent2.tourSize(); i++) {
+            // If child doesn't have the city add it
+            if (!child[0].containsCity(parent2.getCity(i))) {
+                // Loop to find a spare position in the child's tour
+                for (int ii = 0; ii < child[0].tourSize(); ii++) {
+                    // Spare position found, add city
+                    if (child[0].getCity(ii) == null) {
+                        child[0].setCity(ii, parent2.getCity(i));
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < parent1.tourSize(); i++) {
+            // If child doesn't have the city add it
+            if (!child[1].containsCity(parent1.getCity(i))) {
+                // Loop to find a spare position in the child's tour
+                for (int ii = 0; ii < child[1].tourSize(); ii++) {
+                    // Spare position found, add city
+                    if (child[1].getCity(ii) == null) {
+                        child[1].setCity(ii, parent1.getCity(i));
+                        break;
+                    }
+                }
+            }
+        }
+        return child;
+    }
+
 
     // Mutate a tour using swap mutation
     private static void mutate(Tour tour,double mutation_rate) {
