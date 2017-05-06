@@ -27,6 +27,7 @@ public class GA {
             elitismOffset = 1;
         }
         
+        // max couple adalah setengah dari populasi, karena masing-masing couple atau pasangan menghasilkan 2 anak sehingga bisa mengganti populasi dengan jumlah yang sama
         int maxCouple = newPopulation.populationSize()/2;
         if(newPopulation.populationSize()%2==1){
             maxCouple++;
