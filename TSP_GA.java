@@ -4,7 +4,7 @@
 * http://www.theprojectspot.com/tutorial-post/applying-a-genetic-algorithm-to-the-travelling-salesman-problem/5
 */
 
-
+// Kelas Utama dimana proses di inisialisasi dan proses ditampilkan
 
 package tsp;
 
@@ -21,11 +21,14 @@ public class TSP_GA {
         int generationCount;
         int popSize;
 
-
+        mutationRate=2;
         Scanner sc=new Scanner(System.in);  
      
        System.out.println("Nilai Mutation Rate : ");  
-       mutationRate=sc.nextDouble();  
+       while(mutationRate>1){
+        mutationRate=sc.nextDouble(); 
+       }
+        
        // System.out.println("Nilai crossOver Rate : ");  
        // crossOverRate=sc.nextDouble(); 
         System.out.println("Jumlah Generasi : ");  
@@ -79,7 +82,7 @@ public class TSP_GA {
         Population pop = new Population(popSize, true);
         System.out.println("Initial distance: " + pop.getFittest().getDistance());
 
-        // Evolve population for 100 generations
+        // Evolve population for n generations
         pop = GA.evolvePopulation(pop,mutationRate);
         for (int i = 0; i < generationCount; i++) {
             System.out.print("Generasi Ke :");

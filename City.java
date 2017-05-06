@@ -3,6 +3,8 @@
 * Models a city
 */
 
+// Kelas ini digunakan untuk merepresentasikan gen pada masing individu
+
 package tsp;
 
 public class City {
@@ -42,6 +44,7 @@ public class City {
     }
     
     // Gets the distance to given city
+    // Pengukuran jarak menggunakan euclidean distance
     public double distanceTo(City city){
         int xDistance = Math.abs(getX() - city.getX());
         int yDistance = Math.abs(getY() - city.getY());

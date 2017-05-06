@@ -2,6 +2,7 @@
 * Population.java
 * Manages a population of candidate tours
 */
+// Kelas yang merepresentasikan Populasi 
 
 package tsp;
 
@@ -35,6 +36,7 @@ public class Population {
     }
 
     // Gets the best tour in the population
+    // Mencari Individu dengan nilai fitness terbaik
     public Tour getFittest() {
         Tour fittest = tours[0];
         // Loop through individuals to find fittest

@@ -3,6 +3,8 @@
 * Stores a candidate tour
 */
 
+// Kelas yang merepresentasikan individu
+
 package tsp;
 
 import java.util.ArrayList;
@@ -51,6 +53,7 @@ public class Tour{
     }
     
     // Gets the tours fitness
+    //Perhitungan FUNGSI FITNESS
     public double getFitness() {
         if (fitness == 0) {
             fitness = 1/(double)getDistance();

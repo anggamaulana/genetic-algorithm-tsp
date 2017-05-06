@@ -3,6 +3,10 @@
 * Manages algorithms for evolving population
 */
 
+// Kelas GA merepresentasi logika inti dari algoritma genetika yang dipakai
+// Kami memodifikasi fungsi crossover menjadi crossover2 dan menambah fungsi rouletteWheelSelection
+
+
 package tsp;
 
 public class GA {
@@ -33,6 +37,8 @@ public class GA {
         // System.out.println("=========================================================");
         //     System.out.print("PEMBENTUKAN POPULASI BARU MULAI");
         // System.out.println("=========================================================");
+
+
         int j=0;
         for (int i = elitismOffset; i < maxCouple; i++) {
             // Select parents
@@ -43,9 +49,15 @@ public class GA {
             
             // System.out.println("=========================================================");
             // System.out.print("Cross Over parent: \nRute "+parent1+" \ndengan\n Rute"+parent2+"\n");
-            // System.out.println("=========================================================");
-            // Crossover parents
+           
+            // Crossover parents menggunakan fungsi yang telah dimodifikasi
             Tour[] child = crossover2(parent1, parent2);
+
+
+            // System.out.println("menghasilkan anak ");
+            // System.out.print("Cross Over parent: \nRute "+child[0]+" \ndengan\n Rute"+child[1]+"\n");
+            //  System.out.println("=========================================================");
+           
             // Add child to new population
             if(j<newPopulation.populationSize()){
                 newPopulation.saveTour(j, child[0]);
@@ -66,6 +78,9 @@ public class GA {
             mutate(newPopulation.getTour(i),mutation_rate);
         }
 
+       
+
+
         // System.out.println("=========================================================");
         //     System.out.print("PEMBENTUKAN POPULASI BARU SELESAI");
         // System.out.println("=========================================================");
@@ -77,7 +92,9 @@ public class GA {
         return newPopulation;
     }
 
-    // Applies crossover to a set of parents and creates offspring
+    
+    // Fungsi crossover ini asli dan belum dimodifikasi
+
     public static Tour crossover(Tour parent1, Tour parent2) {
         // Create new child tour
         Tour child = new Tour();
@@ -116,7 +133,8 @@ public class GA {
         return child;
     }
 
-    // Applies crossover to a set of parents and creates offspring
+    // MODIFIKASI Crossover
+    // Pada library asli  orangtua hanya menghasilkan 1 anak namun di fungsi ini kami modifikasi menjadi orangtua menghasilkan 2 anak
     public static Tour[] crossover2(Tour parent1, Tour parent2) {
         // Create new child tour
         Tour[] child = new Tour[2];
@@ -126,6 +144,7 @@ public class GA {
         // Get start and end sub tour positions for parent1's tour
         int startPos = (int) (Math.random() * parent1.tourSize());
         int endPos = (int) (Math.random() * parent1.tourSize());
+
 
         // Loop and add the sub tour from parent1 to our child
         for (int i = 0; i < child[0].tourSize(); i++) {
@@ -185,6 +204,7 @@ public class GA {
 
 
     // Mutate a tour using swap mutation
+
     private static void mutate(Tour tour,double mutation_rate) {
         // Loop through tour cities
         for(int tourPos1=0; tourPos1 < tour.tourSize(); tourPos1++){
@@ -219,27 +239,31 @@ public class GA {
         return fittest;
     }
 
+
+
+    // Fungsi yang ditambahkan dalam algoritma ini
     private static Tour rouletteWheelSelection(Population pop) {
         // Create a tournament population
         double random = Math.random();
         Tour selected=pop.getTour(0);
-        // System.out.println("random : ");
-        // System.out.print(random);
+        
         double[] fkum=new double[pop.populationSize()];
         double kumulatif=0;
+
         // get sigma fitness
         double sigmaFitness=0;
         for(int j=0;j<pop.populationSize();j++){
             sigmaFitness+=pop.getTour(j).getFitness();
         }
-        // System.out.println("sigmaFitness : "+sigmaFitness);
+       
+
+
         //get kumulatif
         for(int i=0;i<pop.populationSize();i++){
             kumulatif+=(pop.getTour(i).getFitness()/sigmaFitness);
             fkum[i]=kumulatif;
         }
-        // System.out.println("kumulatif : "+fkum.toString());
-        // for(int x=0;x<fkum.length;x++){System.out.print(fkum[x]);System.out.println(" ");}
+       
         
         // get minimal kumulatif-random
             int indeksTerpilih=0;
@@ -247,7 +271,7 @@ public class GA {
             
             if(k>0){
                 double cek=fkum[k]-random;
-                // double cekSebelumnya=fkum[k-1]-random;
+               
                 if(cek>0){
                     selected=pop.getTour(k);
                     indeksTerpilih=k;
@@ -256,7 +280,7 @@ public class GA {
             }
 
         }
-         // System.out.println("indeks terpilih : "+indeksTerpilih);
+       
         
         return selected;
     }
